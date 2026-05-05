@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ClienteNoZap — Landing Pages que Vendem</title>
+  <meta name="description" content="Landing pages profissionais para pequenos negócios e autônomos. Atraia mais clientes pelo WhatsApp com uma página que converte." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --purple: #6C2BD9; --purple-light: #7C3AED; --purple-dark: #4C1D95;
+      --yellow: #F5C518; --green-zap: #25D366; --green-dark: #128C7E;
+      --white: #FFFFFF; --gray-50: #F9FAFB; --gray-100: #F3F4F6;
+      --gray-200: #E5E7EB; --gray-300: #D1D5DB; --gray-400: #9CA3AF;
+      --gray-600: #4B5563; --gray-700: #374151; --gray-800: #1F2937; --gray-900: #111827;
+      --radius: 12px; --radius-sm: 8px;
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', sans-serif; color: var(--gray-800); background: var(--white); line-height: 1.6; -webkit-font-smoothing: antialiased; }
+
+    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba(255,255,255,.94); backdrop-filter: blur(12px); border-bottom: 1px solid var(--gray-200); padding: 0 5%; height: 64px; display: flex; align-items: center; justify-content: space-between; }
+    .nav-logo { font-size: 1.1rem; font-weight: 800; color: var(--purple); letter-spacing: -.3px; }
+    .nav-logo span { color: var(--green-zap); }
+    .nav-cta { background: var(--green-zap); color: var(--white); font-size: .82rem; font-weight: 600; padding: 9px 20px; border-radius: 50px; text-decoration: none; display: flex; align-items: center; gap: 6px; transition: background .2s; }
+    .nav-cta:hover { background: var(--green-dark); }
+
+    .hero { padding: 140px 5% 100px; background: linear-gradient(135deg, #F5F3FF 0%, #EDE9FE 40%, #FEF9C3 100%); text-align: center; }
+    .hero-badge { display: inline-flex; align-items: center; gap: 6px; background: var(--white); border: 1px solid var(--gray-200); border-radius: 50px; padding: 6px 16px; font-size: .78rem; font-weight: 500; color: var(--gray-600); margin-bottom: 28px; }
+    .hero h1 { font-size: clamp(2rem, 5vw, 3.4rem); font-weight: 800; color: var(--gray-900); line-height: 1.15; letter-spacing: -.5px; max-width: 760px; margin: 0 auto 20px; }
+    .hero h1 span { color: var(--purple); }
+    .hero p { font-size: 1.1rem; color: var(--gray-600); max-width: 520px; margin: 0 auto 40px; }
+    .hero-actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+    .btn-primary { background: var(--purple); color: var(--white); font-size: .9rem; font-weight: 600; padding: 14px 32px; border-radius: 50px; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; transition: background .2s, transform .15s; box-shadow: 0 4px 20px rgba(108,43,217,.3); }
+    .btn-primary:hover { background: var(--purple-dark); transform: translateY(-1px); }
+    .btn-secondary { background: transparent; color: var(--gray-800); font-size: .9rem; font-weight: 500; padding: 14px 28px; border-radius: 50px; text-decoration: none; border: 1.5px solid var(--gray-300); display: inline-flex; align-items: center; gap: 8px; transition: border-color .2s, color .2s; }
+    .btn-secondary:hover { border-color: var(--purple); color: var(--purple); }
+    .hero-stats { display: flex; justify-content: center; gap: 48px; margin-top: 64px; flex-wrap: wrap; }
+    .stat { text-align: center; }
+    .stat-number { font-size: 1.8rem; font-weight: 800; color: var(--purple); }
+    .stat-label { font-size: .8rem; color: var(--gray-400); font-weight: 500; margin-top: 2px; }
+
+    section { padding: 80px 5%; }
+    .container { max-width: 1100px; margin: 0 auto; }
+    .section-tag { font-size: .75rem; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--purple); margin-bottom: 12px; }
+    .section-title { font-size: clamp(1.6rem, 3.5vw, 2.2rem); font-weight: 800; color: var(--gray-900); line-height: 1.2; letter-spacing: -.3px; margin-bottom: 16px; }
+    .section-sub { font-size: 1rem; color: var(--gray-600); max-width: 520px; }
+
+    #como-funciona { background: var(--white); }
+    .steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 32px; margin-top: 56px; }
+    .step { padding: 32px 28px; border: 1.5px solid var(--gray-200); border-radius: var(--radius); position: relative; transition: border-color .2s, box-shadow .2s; }
+    .step:hover { border-color: var(--purple-light); box-shadow: 0 4px 16px rgba(0,0,0,.1); }
+    .step-number { position: absolute; top: -14px; left: 28px; background: var(--purple); color: var(--white); font-size: .75rem; font-weight: 700; padding: 3px 12px; border-radius: 50px; }
+    .step-icon { width: 44px; height: 44px; background: var(--gray-100); border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; margin-bottom: 16px; color: var(--purple); }
+    .step-icon svg { width: 22px; height: 22px; }
+    .step h3 { font-size: 1rem; font-weight: 700; margin-bottom: 8px; }
+    .step p { font-size: .88rem; color: var(--gray-600); }
+
+    #planos { background: var(--gray-50); }
+    .plans-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; align-items: start; }
+    .plan-card { background: var(--white); border: 1.5px solid var(--gray-200); border-radius: var(--radius); padding: 36px 32px; transition: box-shadow .2s, transform .2s; position: relative; }
+    .plan-card:hover { box-shadow: 0 8px 32px rgba(0,0,0,.12); transform: translateY(-3px); }
+    .plan-card.featured { border-color: var(--purple); box-shadow: 0 0 0 3px rgba(108,43,217,.1); }
+    .plan-badge { position: absolute; top: -13px; left: 50%; transform: translateX(-50%); background: var(--purple); color: var(--white); font-size: .72rem; font-weight: 700; letter-spacing: .8px; text-transform: uppercase; padding: 4px 16px; border-radius: 50px; white-space: nowrap; }
+    .plan-name { font-size: .8rem; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--gray-400); margin-bottom: 10px; }
+    .plan-price { font-size: 2.4rem; font-weight: 800; color: var(--gray-900); line-height: 1; margin-bottom: 6px; }
+    .plan-price span { font-size: 1rem; font-weight: 500; color: var(--gray-400); }
+    .plan-desc { font-size: .85rem; color: var(--gray-600); margin-bottom: 28px; padding-bottom: 28px; border-bottom: 1px solid var(--gray-100); }
+    .plan-features { list-style: none; margin-bottom: 32px; display: flex; flex-direction: column; gap: 12px; }
+    .plan-features li { display: flex; align-items: flex-start; gap: 10px; font-size: .875rem; color: var(--gray-700); }
+    .plan-features li svg { width: 16px; height: 16px; flex-shrink: 0; margin-top: 2px; }
+    .feat-yes { color: var(--purple); }
+    .feat-no { color: var(--gray-300); }
+    .feat-no-text { color: var(--gray-400); }
+    .plan-cta { width: 100%; display: flex; align-items: center; justify-content: center; gap: 8px; padding: 13px; border-radius: 50px; font-size: .88rem; font-weight: 600; text-decoration: none; transition: all .2s; cursor: pointer; }
+    .plan-cta.outline { border: 1.5px solid var(--gray-300); color: var(--gray-700); }
+    .plan-cta.outline:hover { border-color: var(--purple); color: var(--purple); }
+    .plan-cta.solid { background: var(--purple); color: var(--white); box-shadow: 0 4px 14px rgba(108,43,217,.3); }
+    .plan-cta.solid:hover { background: var(--purple-dark); }
+    .plan-cta svg { width: 16px; height: 16px; }
+    .disclaimer { text-align: center; margin-top: 24px; font-size: .78rem; color: var(--gray-400); display: flex; align-items: center; justify-content: center; gap: 6px; }
+
+    #diferenciais { background: var(--white); }
+    .diff-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 24px; margin-top: 56px; }
+    .diff-card { padding: 28px 24px; background: var(--gray-50); border-radius: var(--radius); border: 1px solid var(--gray-100); }
+    .diff-icon { width: 40px; height: 40px; border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; margin-bottom: 14px; }
+    .diff-icon svg { width: 20px; height: 20px; }
+    .diff-card h3 { font-size: .95rem; font-weight: 700; margin-bottom: 6px; }
+    .diff-card p { font-size: .83rem; color: var(--gray-600); }
+
+    #faq { background: var(--gray-50); }
+    .faq-list { margin-top: 48px; display: flex; flex-direction: column; gap: 12px; max-width: 720px; }
+    .faq-item { background: var(--white); border: 1px solid var(--gray-200); border-radius: var(--radius-sm); overflow: hidden; }
+    .faq-q { width: 100%; background: none; border: none; cursor: pointer; padding: 20px 24px; display: flex; align-items: center; justify-content: space-between; font-size: .9rem; font-weight: 600; color: var(--gray-800); text-align: left; font-family: 'Inter', sans-serif; }
+    .faq-q svg { width: 16px; height: 16px; flex-shrink: 0; color: var(--purple); transition: transform .2s; }
+    .faq-item.open .faq-q svg { transform: rotate(180deg); }
+    .faq-a { max-height: 0; overflow: hidden; transition: max-height .3s ease, padding .3s; font-size: .875rem; color: var(--gray-600); line-height: 1.7; padding: 0 24px; }
+    .faq-item.open .faq-a { max-height: 200px; padding: 0 24px 20px; }
+
+    #contato { background: linear-gradient(135deg, #4C1D95 0%, #6C2BD9 60%, #7C3AED 100%); text-align: center; }
+    #contato .section-title { color: #fff; }
+    #contato p { color: rgba(255,255,255,.75); font-size: 1rem; max-width: 480px; margin: 0 auto 40px; }
+    .cta-zap { display: inline-flex; align-items: center; gap: 10px; background: var(--green-zap); color: #fff; font-size: 1rem; font-weight: 700; padding: 16px 40px; border-radius: 50px; text-decoration: none; box-shadow: 0 6px 24px rgba(37,211,102,.4); transition: background .2s, transform .15s; }
+    .cta-zap:hover { background: var(--green-dark); transform: translateY(-2px); }
+    .cta-zap svg { width: 22px; height: 22px; }
+
+    footer { background: #111827; color: #9CA3AF; text-align: center; padding: 32px 5%; font-size: .8rem; }
+    footer strong { color: #fff; }
+
+    .wpp-float { position: fixed; bottom: 28px; right: 28px; z-index: 99; width: 56px; height: 56px; background: var(--green-zap); border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 20px rgba(37,211,102,.5); text-decoration: none; transition: transform .2s; }
+    .wpp-float:hover { transform: scale(1.08); }
+    .wpp-float svg { width: 28px; height: 28px; color: #fff; }
+
+    @media (max-width: 640px) {
+      .hero { padding: 120px 4% 80px; }
+      .hero-stats { gap: 28px; }
+      section { padding: 64px 4%; }
+      .plans-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">ClienteNo<span>Zap</span>.com.br</div>
+  <a class="nav-cta" href="https://wa.me/5518991996324?text=Ol%C3%A1%2C+gostaria+de+saber+mais+sobre+as+landing+pages" target="_blank" rel="noopener">
+    <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+    Falar no WhatsApp
+  </a>
+</nav>
+
+<section class="hero">
+  <div class="container">
+    <div class="hero-badge">
+      <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#25D366" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>
+      Especialista em conversão para pequenos negócios
+    </div>
+    <h1>Sua empresa <span>vendendo mais</span><br>pelo WhatsApp todo dia</h1>
+    <p>Landing pages profissionais que transformam visitantes em clientes — rápidas, bonitas e focadas em resultado.</p>
+    <div class="hero-actions">
+      <a class="btn-primary" href="#planos">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+        Ver planos e preços
+      </a>
+      <a class="btn-secondary" href="#como-funciona">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 8 12 12 14 14"/></svg>
+        Como funciona
+      </a>
+    </div>
+    <div class="hero-stats">
+      <div class="stat"><div class="stat-number">48h</div><div class="stat-label">Prazo mínimo de entrega</div></div>
+      <div class="stat"><div class="stat-number">100%</div><div class="stat-label">Mobile responsivo</div></div>
+      <div class="stat"><div class="stat-number">3</div><div class="stat-label">Planos disponíveis</div></div>
+    </div>
+  </div>
+</section>
+
+<section id="como-funciona">
+  <div class="container">
+    <div class="section-tag">Processo</div>
+    <h2 class="section-title">Do contato à página no ar</h2>
+    <p class="section-sub">Processo simples, sem burocracia. Você foca no seu negócio, eu cuido da tecnologia.</p>
+    <div class="steps">
+      <div class="step">
+        <div class="step-number">01</div>
+        <div class="step-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg></div>
+        <h3>Conversa inicial</h3>
+        <p>Me conta sobre seu negócio, público e objetivo pelo WhatsApp. Sem formulários complicados.</p>
+      </div>
+      <div class="step">
+        <div class="step-number">02</div>
+        <div class="step-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg></div>
+        <h3>Criação da página</h3>
+        <p>Desenvolvimento completo com design, textos e integrações conforme o plano escolhido.</p>
+      </div>
+      <div class="step">
+        <div class="step-number">03</div>
+        <div class="step-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div>
+        <h3>Revisão e ajustes</h3>
+        <p>Você revisa, solicita alterações e aprovamos juntos antes de publicar.</p>
+      </div>
+      <div class="step">
+        <div class="step-number">04</div>
+        <div class="step-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="10 15 7 12 10 9"/><polyline points="14 9 17 12 14 15"/></svg></div>
+        <h3>Página no ar</h3>
+        <p>Configuração do domínio, hospedagem e publicação. Seu site pronto para receber clientes.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="planos">
+  <div class="container">
+    <div style="margin-bottom:56px">
+      <div class="section-tag">Planos</div>
+      <h2 class="section-title">Escolha o plano ideal para você</h2>
+      <p class="section-sub">Todos os planos incluem versão mobile, botão WhatsApp e configuração de domínio.</p>
+    </div>
+    <div class="plans-grid">
+
+      <div class="plan-card">
+        <div class="plan-name">Básico</div>
+        <div class="plan-price">R$297<span>/único</span></div>
+        <p class="plan-desc">Ideal para quem quer marcar presença online e começar a receber contatos pelo WhatsApp.</p>
+        <ul class="plan-features">
+          <li><svg class="feat-yes" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span>4 seções estruturadas</span></li>
+          <li><svg class="feat-yes" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span>Versão mobile otimizada</span></li>
+          <li><svg class="feat-yes" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span>Botão WhatsApp integrado</span></li>
+          <li><svg class="feat-yes" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span>Formulário de contato</span></li>
+          <li><svg class="feat-yes" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span>Google Analytics configurado</span></li>
+          <li><svg class="feat-yes" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span>Configuração de domínio inclusa</span></li>
+          <li><svg class="feat-no" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg><span class="feat-no-text">SEO otimizado</span></li>
+          <li><svg class="feat-no" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg><span class="feat-no-text">Pixel Facebook/Instagram</span></li>
+          <li><svg class="feat-no" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg><span class="feat-no-text">Suporte pós-entrega</span></li>
+          <li style="margin-top:4px"><svg style="color:#9CA3AF;width:16px;height:16px;flex-shrink:0;margin-top:2px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 8 12 12 14 14"/></svg><span style="color:#6B7280;font-size:.82rem">Prazo: 5 dias úteis</span></li>
+        </ul>
+        <a class="plan-cta outline" href="https://wa.me/5518991996324?text=Ol%C3%A1%2C+tenho+interesse+no+plano+B%C3%A1sico+de+R%24297" target="_blank" rel="noopener">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+          Quero este plano
+        </a>
+      </div>
+
+      <div class="plan-card featured">
+        <div class="plan-badge">Mais escolhido</div>
+        <div class="plan-name">Intermediário</div>
+        <div class="plan-price">R$597<span>/único</span></div>
+        <p class="plan-desc">Para quem quer aparecer no Google e impulsionar campanhas no Instagram e Facebook.</p>
+        <ul class="plan-features">
+          <li><svg class="feat-yes" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span>6 seções estruturadas</span></li>
+          <li><svg class="feat-yes" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span>Versão mobile otimizada</span></li>
+          <li><svg class="feat-yes" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span>Botão WhatsApp integrado</span></li>
+          <li><svg class="feat-yes" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span>Formulário de contato</span></li>
+          <li><svg class="feat-yes" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span>Google Analytics configurado</span></li>
+          <li><svg class="feat-yes" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span>SEO otimizado</span></li>
+          <li><svg class="feat-yes" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span>Pixel Facebook/Instagram</span></li>
+          <li><svg class="feat-yes" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span>Integração redes sociais</span></li>
+          <li><svg class="feat-yes" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span>Configuração de domínio inclusa</span></li>
+          <li><svg class="feat-yes" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span>Suporte por 7 dias</span></li>
+          <li style="margin-top:4px"><svg style="color:#6C2BD9;width:16px;height:16px;flex-shrink:0;margin-top:2px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 8 12 12 14 14"/></svg><span style="color:#374151;font-size:.82rem">Prazo: 7 dias úteis</span></li>
+        </ul>
+        <a class="plan-cta solid" href="https://wa.me/5518991996324?text=Ol%C3%A1%2C+tenho+interesse+no+plano+Intermedi%C3%A1rio+de+R%24597" target="_blank" rel="noopener">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+          Quero este plano
+        </a>
+      </div>
+
+      <div class="plan-card">
+        <div class="plan-name">Avançado</div>
+        <div class="plan-price">R$997<span>/único</span></div>
+        <p class="plan-desc">Solução completa para máxima conversão, com copywriting profissional e página de obrigado.</p>
+        <ul class="plan-features">
+          <li><svg class="feat-yes" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span>8+ seções estruturadas</span></li>
+          <li><svg class="feat-yes" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span>Versão mobile otimizada</span></li>
+          <li><svg class="feat-yes" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span>SEO otimizado</span></li>
+          <li><svg class="feat-yes" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span>Pixel Facebook/Instagram</span></li>
+          <li><svg class="feat-yes" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span>Animações e interatividade</span></li>
+          <li><svg class="feat-yes" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span>Copywriting incluso</span></li>
+          <li><svg class="feat-yes" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span>Página de obrigado</span></li>
+          <li><svg class="feat-yes" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span>Integração redes sociais</span></li>
+          <li><svg class="feat-yes" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span>Configuração de domínio inclusa</span></li>
+          <li><svg class="feat-yes" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span>Suporte por 30 dias</span></li>
+          <li style="margin-top:4px"><svg style="color:#6C2BD9;width:16px;height:16px;flex-shrink:0;margin-top:2px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 8 12 12 14 14"/></svg><span style="color:#374151;font-size:.82rem">Prazo: 10 dias úteis</span></li>
+        </ul>
+        <a class="plan-cta outline" href="https://wa.me/5518991996324?text=Ol%C3%A1%2C+tenho+interesse+no+plano+Avan%C3%A7ado+de+R%24997" target="_blank" rel="noopener">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+          Quero este plano
+        </a>
+      </div>
+
+    </div>
+    <p class="disclaimer">
+      <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+      Domínio e hospedagem não estão inclusos e são de responsabilidade do cliente.
+    </p>
+  </div>
+</section>
+
+<section id="diferenciais">
+  <div class="container">
+    <div class="section-tag">Por que escolher</div>
+    <h2 class="section-title">O que me diferencia</h2>
+    <div class="diff-grid">
+      <div class="diff-card">
+        <div class="diff-icon" style="background:#EDE9FE;"><svg style="color:#6C2BD9" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg></div>
+        <h3>Foco em conversão</h3>
+        <p>Cada elemento da página é pensado para transformar visitante em cliente.</p>
+      </div>
+      <div class="diff-card">
+        <div class="diff-icon" style="background:#DCFCE7;"><svg style="color:#128C7E" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg></div>
+        <h3>Atendimento pelo Zap</h3>
+        <p>Comunicação direta e rápida. Sem tickets, sem espera, sem burocracia.</p>
+      </div>
+      <div class="diff-card">
+        <div class="diff-icon" style="background:#FEF9C3;"><svg style="color:#A16207" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 8 12 12 14 14"/></svg></div>
+        <h3>Entrega no prazo</h3>
+        <p>Compromisso com o prazo combinado. Sem enrolação, sem surpresas.</p>
+      </div>
+      <div class="diff-card">
+        <div class="diff-icon" style="background:#FEE2E2;"><svg style="color:#B91C1C" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></div>
+        <h3>Mobile primeiro</h3>
+        <p>Mais de 80% dos acessos vêm do celular. Páginas perfeitas em qualquer tela.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="faq">
+  <div class="container">
+    <div class="section-tag">Dúvidas</div>
+    <h2 class="section-title">Perguntas frequentes</h2>
+    <div class="faq-list">
+      <div class="faq-item">
+        <button class="faq-q">O domínio e a hospedagem estão inclusos?<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+        <div class="faq-a">Não. O domínio e a hospedagem são contratados diretamente pelo cliente. Eu indico os melhores serviços e faço toda a configuração técnica sem custo adicional.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">Posso pedir alterações depois que a página estiver pronta?<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+        <div class="faq-a">Antes da publicação você pode solicitar ajustes sem custo. Após a entrega, o Avançado inclui 30 dias de suporte e o Intermediário 7 dias.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">Qual a diferença entre os planos na prática?<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+        <div class="faq-a">O Básico entrega uma página funcional para quem está começando. O Intermediário adiciona SEO e Pixel — ideal para anúncios. O Avançado inclui copywriting e animações para máxima conversão.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">Preciso ter todo o conteúdo pronto antes de contratar?<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+        <div class="faq-a">No plano Avançado o copywriting está incluso. Nos demais, definimos juntos o conteúdo durante a conversa inicial pelo WhatsApp.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">Como é feito o pagamento?<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+        <div class="faq-a">Aceito Pix e transferência bancária. O padrão é 50% na contratação e 50% na entrega. Combinamos os detalhes pelo WhatsApp.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="contato">
+  <div class="container">
+    <h2 class="section-title">Pronto para vender mais?</h2>
+    <p>Entre em contato agora e receba um orçamento sem compromisso. Respondo em minutos.</p>
+    <a class="cta-zap" href="https://wa.me/5518991996324?text=Ol%C3%A1%2C+quero+uma+landing+page+para+meu+neg%C3%B3cio" target="_blank" rel="noopener">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+      Falar no WhatsApp agora
+    </a>
+  </div>
+</section>
+
+<footer>
+  <p>&copy; 2025 <strong>ClienteNoZap.com.br</strong> — Todos os direitos reservados.</p>
+</footer>
+
+<a class="wpp-float" href="https://wa.me/5518991996324" target="_blank" rel="noopener" title="Falar no WhatsApp">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+</a>
+
+<script>
+  document.querySelectorAll('.faq-q').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const item = btn.closest('.faq-item');
+      const isOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+      if (!isOpen) item.classList.add('open');
+    });
+  });
+</script>
+</body>
+</html>
