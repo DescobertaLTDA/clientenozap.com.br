@@ -108,47 +108,137 @@
     .stat-divider { width: 1px; background: rgba(255,255,255,.2); height: 40px; align-self: center; }
 
     /* Hero visual */
-    .hero-visual { display: flex; justify-content: center; align-items: center; position: relative; }
+    .hero-visual { display: flex; justify-content: center; align-items: center; position: relative; height: 560px; }
+
+    /* Phone shell */
     .hero-phone {
-      width: 260px; height: 520px;
-      background: var(--gray-900);
-      border-radius: 40px;
-      border: 8px solid #1a1a2e;
-      box-shadow: 0 40px 80px rgba(0,0,0,.35), 0 0 0 1px rgba(255,255,255,.06);
-      overflow: hidden; position: relative;
-      transform: rotate(3deg);
+      width: 252px; height: 514px;
+      position: relative; z-index: 2;
+      filter: drop-shadow(0 48px 64px rgba(0,0,0,.55)) drop-shadow(0 8px 24px rgba(0,0,0,.35));
+      transform: rotate(2.5deg);
+      animation: float-phone 5s ease-in-out infinite;
     }
-    .hero-phone-screen {
+    @keyframes float-phone { 0%,100%{ transform: rotate(2.5deg) translateY(0); } 50%{ transform: rotate(2.5deg) translateY(-10px); } }
+
+    /* Outer frame */
+    .phone-frame {
       width: 100%; height: 100%;
-      background: #f5f3ff;
-      display: flex; flex-direction: column; align-items: center; padding: 20px 14px;
+      background: linear-gradient(160deg, #2a2a3e 0%, #111120 60%, #1e1e30 100%);
+      border-radius: 44px;
+      padding: 3px;
+      position: relative;
     }
-    .phone-bar { width: 60px; height: 4px; background: var(--gray-300); border-radius: 2px; margin-bottom: 18px; }
-    .phone-logo { font-size: .8rem; font-weight: 900; color: var(--purple); margin-bottom: 14px; }
-    .phone-card { background: var(--white); border-radius: 12px; padding: 14px; width: 100%; box-shadow: 0 4px 16px rgba(0,0,0,.1); margin-bottom: 10px; }
-    .phone-card-title { font-size: .65rem; font-weight: 700; color: var(--gray-800); margin-bottom: 6px; }
-    .phone-card-bar { height: 6px; background: var(--gray-100); border-radius: 3px; margin-bottom: 4px; }
-    .phone-card-bar.w80 { width: 80%; }
-    .phone-card-bar.w60 { width: 60%; }
-    .phone-card-bar.w90 { width: 90%; }
-    .phone-btn { background: var(--green-zap); color: #fff; font-size: .62rem; font-weight: 700; border-radius: 50px; padding: 8px; width: 100%; text-align: center; margin-top: 4px; }
+    /* Side buttons */
+    .phone-frame::before {
+      content: '';
+      position: absolute; left: -3px; top: 110px;
+      width: 3px; height: 36px;
+      background: #2a2a3e; border-radius: 3px 0 0 3px;
+      box-shadow: 0 46px 0 #2a2a3e;
+    }
+    .phone-frame::after {
+      content: '';
+      position: absolute; right: -3px; top: 140px;
+      width: 3px; height: 60px;
+      background: #2a2a3e; border-radius: 0 3px 3px 0;
+    }
+    /* Inner bezel */
+    .phone-bezel {
+      width: 100%; height: 100%;
+      background: #0f0f1a;
+      border-radius: 42px;
+      padding: 2px;
+      overflow: hidden;
+    }
+    /* Screen */
+    .phone-screen {
+      width: 100%; height: 100%;
+      background: #fff;
+      border-radius: 40px;
+      overflow: hidden;
+      display: flex; flex-direction: column;
+      position: relative;
+    }
+    /* Status bar */
+    .phone-status {
+      background: var(--purple-dark);
+      padding: 12px 20px 6px;
+      display: flex; align-items: center; justify-content: space-between;
+      flex-shrink: 0;
+    }
+    .phone-time { font-size: .6rem; font-weight: 700; color: #fff; letter-spacing: .5px; }
+    .phone-icons { display: flex; align-items: center; gap: 4px; }
+    .phone-icons svg { width: 10px; height: 10px; color: #fff; }
+    /* Dynamic island */
+    .phone-island {
+      position: absolute; top: 8px; left: 50%; transform: translateX(-50%);
+      width: 80px; height: 22px; background: #0f0f1a;
+      border-radius: 50px; z-index: 10;
+    }
+    /* Nav inside phone */
+    .pnav {
+      background: var(--purple-dark);
+      padding: 8px 14px 12px;
+      display: flex; align-items: center; justify-content: space-between;
+      flex-shrink: 0;
+    }
+    .pnav-logo { font-size: .68rem; font-weight: 900; color: #fff; display: flex; align-items: center; gap: 5px; }
+    .pnav-logo-dot { width: 14px; height: 14px; background: rgba(255,255,255,.15); border-radius: 4px; display: flex; align-items: center; justify-content: center; }
+    .pnav-logo-dot svg { width: 9px; height: 9px; color: #fff; }
+    .pnav-logo span { color: var(--green-zap); }
+    .pnav-btn { background: var(--green-zap); color: #fff; font-size: .5rem; font-weight: 700; padding: 5px 9px; border-radius: 50px; white-space: nowrap; }
+    /* Scroll area */
+    .phone-scroll { flex: 1; overflow: hidden; background: #faf9ff; display: flex; flex-direction: column; }
+    /* Hero block inside phone */
+    .p-hero { background: var(--purple-dark); padding: 14px 14px 18px; text-align: center; }
+    .p-hero-tag { font-size: .46rem; font-weight: 600; color: rgba(255,255,255,.7); background: rgba(255,255,255,.12); border-radius: 50px; padding: 3px 8px; display: inline-block; margin-bottom: 8px; }
+    .p-hero-title { font-size: .72rem; font-weight: 900; color: #fff; line-height: 1.3; margin-bottom: 6px; }
+    .p-hero-title span { color: var(--green-zap); }
+    .p-hero-sub { font-size: .48rem; color: rgba(255,255,255,.65); line-height: 1.5; margin-bottom: 10px; }
+    .p-hero-btn { background: var(--green-zap); color: #fff; font-size: .55rem; font-weight: 700; padding: 7px 12px; border-radius: 50px; display: inline-flex; align-items: center; gap: 4px; }
+    /* Services block */
+    .p-section { padding: 12px 14px; }
+    .p-section-title { font-size: .52rem; font-weight: 800; color: var(--gray-800); margin-bottom: 8px; }
+    .p-card { background: #fff; border-radius: 10px; padding: 10px 12px; margin-bottom: 8px; box-shadow: 0 2px 8px rgba(0,0,0,.07); border: 1px solid #f0effe; }
+    .p-card-head { display: flex; align-items: center; gap: 7px; margin-bottom: 6px; }
+    .p-card-avatar { width: 22px; height: 22px; border-radius: 6px; flex-shrink: 0; }
+    .p-card-name { font-size: .55rem; font-weight: 700; color: var(--gray-800); }
+    .p-card-sub { font-size: .46rem; color: var(--gray-400); }
+    .p-card-bar { height: 4px; background: #f0effe; border-radius: 2px; margin-bottom: 3px; }
+    .p-card-bar.w85 { width: 85%; } .p-card-bar.w65 { width: 65%; } .p-card-bar.w75 { width: 75%; } .p-card-bar.w50 { width: 50%; }
+    .p-card-btn { background: var(--green-zap); color: #fff; font-size: .5rem; font-weight: 700; border-radius: 50px; padding: 5px 10px; text-align: center; margin-top: 6px; display: flex; align-items: center; justify-content: center; gap: 3px; }
+    /* Bottom bar */
+    .phone-bottom { background: #fff; padding: 8px 30px 14px; display: flex; justify-content: space-around; flex-shrink: 0; border-top: 1px solid #f0f0f0; }
+    .phone-bottom-dot { width: 28px; height: 4px; border-radius: 2px; background: var(--gray-200); }
+    .phone-bottom-dot.active { background: var(--gray-800); width: 34px; }
+    /* Screen shine */
+    .phone-shine {
+      position: absolute; top: 0; left: 0; right: 0; bottom: 0; border-radius: 40px; pointer-events: none;
+      background: linear-gradient(130deg, rgba(255,255,255,.08) 0%, transparent 50%);
+      z-index: 5;
+    }
+
+    /* Floating badges */
+    @keyframes float { 0%,100%{ transform: translateY(0); } 50%{ transform: translateY(-8px); } }
     .hero-badge-float {
-      position: absolute; top: 20px; right: -20px;
-      background: var(--white); border-radius: 12px; padding: 12px 16px;
-      box-shadow: var(--shadow-lg); display: flex; align-items: center; gap: 10px;
-      animation: float 3s ease-in-out infinite;
+      position: absolute; top: 30px; right: -32px; z-index: 10;
+      background: #fff; border-radius: 14px; padding: 12px 16px;
+      box-shadow: 0 8px 32px rgba(0,0,0,.18), 0 0 0 1px rgba(0,0,0,.04);
+      display: flex; align-items: center; gap: 10px;
+      animation: float 3.5s ease-in-out infinite;
     }
     .hero-badge-float2 {
-      position: absolute; bottom: 40px; left: -30px;
-      background: var(--white); border-radius: 12px; padding: 12px 16px;
-      box-shadow: var(--shadow-lg); display: flex; align-items: center; gap: 10px;
-      animation: float 3s ease-in-out infinite .8s;
+      position: absolute; bottom: 50px; left: -36px; z-index: 10;
+      background: #fff; border-radius: 14px; padding: 12px 16px;
+      box-shadow: 0 8px 32px rgba(0,0,0,.18), 0 0 0 1px rgba(0,0,0,.04);
+      display: flex; align-items: center; gap: 10px;
+      animation: float 3.5s ease-in-out infinite 1s;
     }
-    @keyframes float { 0%,100%{ transform: translateY(0); } 50%{ transform: translateY(-8px); } }
-    .float-icon { width: 36px; height: 36px; border-radius: 10px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .float-icon { width: 38px; height: 38px; border-radius: 11px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .float-icon svg { width: 20px; height: 20px; }
     .float-text { display: flex; flex-direction: column; }
-    .float-text strong { font-size: .78rem; font-weight: 700; color: var(--gray-800); }
-    .float-text span { font-size: .68rem; color: var(--gray-400); }
+    .float-text strong { font-size: .8rem; font-weight: 700; color: var(--gray-900); line-height: 1.2; }
+    .float-text span { font-size: .68rem; color: var(--gray-400); margin-top: 2px; }
 
     /* ── LOGOS / SOCIAL PROOF ── */
     .proof-bar { padding: 32px 5%; background: var(--gray-50); border-top: 1px solid var(--gray-100); border-bottom: 1px solid var(--gray-100); }
@@ -492,41 +582,109 @@
       </div>
     </div>
     <div class="hero-visual">
+      <!-- Phone mockup -->
       <div class="hero-phone">
-        <div class="hero-phone-screen">
-          <div class="phone-bar"></div>
-          <div class="phone-logo">ClienteNoZap</div>
-          <div class="phone-card">
-            <div class="phone-card-title">Barbearia do João</div>
-            <div class="phone-card-bar w90"></div>
-            <div class="phone-card-bar w80"></div>
-            <div class="phone-card-bar w60"></div>
-            <div class="phone-btn">📲 Agendar pelo WhatsApp</div>
-          </div>
-          <div class="phone-card">
-            <div class="phone-card-title">Estética da Maria</div>
-            <div class="phone-card-bar w80"></div>
-            <div class="phone-card-bar w60"></div>
-            <div class="phone-btn">💅 Ver serviços</div>
+        <div class="phone-frame">
+          <div class="phone-bezel">
+            <div class="phone-screen">
+              <div class="phone-island"></div>
+              <!-- Status bar -->
+              <div class="phone-status">
+                <span class="phone-time">9:41</span>
+                <div class="phone-icons">
+                  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M1 9l2 2c4.97-4.97 13.03-4.97 18 0l2-2C16.93 2.93 7.08 2.93 1 9zm8 8l3 3 3-3a4.237 4.237 0 0 0-6 0zm-4-4 2 2a7.074 7.074 0 0 1 10 0l2-2C15.14 9.14 8.87 9.14 5 13z"/></svg>
+                  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M15.67 4H14V2h-4v2H8.33C7.6 4 7 4.6 7 5.33v15.33C7 21.4 7.6 22 8.33 22h7.33c.74 0 1.34-.6 1.34-1.33V5.33C17 4.6 16.4 4 15.67 4z"/></svg>
+                </div>
+              </div>
+              <!-- Nav inside phone -->
+              <div class="pnav">
+                <div class="pnav-logo">
+                  <div class="pnav-logo-dot">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+                  </div>
+                  ClienteNo<span>Zap</span>
+                </div>
+                <div class="pnav-btn">Falar no Zap</div>
+              </div>
+              <!-- Scrollable content -->
+              <div class="phone-scroll">
+                <!-- Mini hero -->
+                <div class="p-hero">
+                  <div class="p-hero-tag">✦ Especialista em conversão</div>
+                  <div class="p-hero-title">Sua empresa <span>vendendo mais</span> pelo WhatsApp</div>
+                  <div class="p-hero-sub">Landing pages profissionais que transformam visitantes em clientes.</div>
+                  <div class="p-hero-btn">
+                    <svg width="8" height="8" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347zm-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884zm8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/></svg>
+                    Falar no WhatsApp
+                  </div>
+                </div>
+                <!-- Cards section -->
+                <div class="p-section">
+                  <div class="p-section-title">Nossos clientes</div>
+                  <div class="p-card">
+                    <div class="p-card-head">
+                      <div class="p-card-avatar" style="background:linear-gradient(135deg,#6C2BD9,#8B5CF6);"></div>
+                      <div>
+                        <div class="p-card-name">Barbearia Premium</div>
+                        <div class="p-card-sub">Plano Intermediário</div>
+                      </div>
+                    </div>
+                    <div class="p-card-bar w85"></div>
+                    <div class="p-card-bar w65"></div>
+                    <div class="p-card-btn">
+                      <svg width="7" height="7" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347zm-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884zm8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/></svg>
+                      Agendar pelo WhatsApp
+                    </div>
+                  </div>
+                  <div class="p-card">
+                    <div class="p-card-head">
+                      <div class="p-card-avatar" style="background:linear-gradient(135deg,#ec4899,#f472b6);"></div>
+                      <div>
+                        <div class="p-card-name">Studio Bella Estética</div>
+                        <div class="p-card-sub">Plano Avançado</div>
+                      </div>
+                    </div>
+                    <div class="p-card-bar w75"></div>
+                    <div class="p-card-bar w50"></div>
+                    <div class="p-card-btn">
+                      <svg width="7" height="7" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347zm-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884zm8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/></svg>
+                      Ver serviços
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- Bottom home bar -->
+              <div class="phone-bottom">
+                <div class="phone-bottom-dot"></div>
+                <div class="phone-bottom-dot active"></div>
+                <div class="phone-bottom-dot"></div>
+              </div>
+              <!-- Screen shine overlay -->
+              <div class="phone-shine"></div>
+            </div>
           </div>
         </div>
       </div>
+
+      <!-- Floating badge: delivered -->
       <div class="hero-badge-float">
         <div class="float-icon" style="background:#DCFCE7;">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#128C7E" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          <svg viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
         </div>
         <div class="float-text">
           <strong>Página entregue!</strong>
           <span>Em 48h úteis</span>
         </div>
       </div>
+
+      <!-- Floating badge: leads -->
       <div class="hero-badge-float2">
         <div class="float-icon" style="background:#EDE9FE;">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#6C2BD9" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>
+          <svg viewBox="0 0 24 24" fill="none" stroke="#6C2BD9" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>
         </div>
         <div class="float-text">
           <strong>+3 leads hoje</strong>
-          <span>pelo WhatsApp</span>
+          <span>via WhatsApp</span>
         </div>
       </div>
     </div>
