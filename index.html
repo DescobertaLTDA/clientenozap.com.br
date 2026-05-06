@@ -661,16 +661,14 @@
       .portfolio-grid { grid-template-columns: repeat(2, 1fr); }
 
       /* Plans — carousel */
-      .plans-carousel-outer {
-        overflow: hidden; margin: 0 -5%; padding: 0;
-      }
       .plans-grid {
-        display: flex; overflow-x: hidden;
-        gap: 16px; padding: 16px 5% 20px; margin: 0;
-        scrollbar-width: none; will-change: transform;
+        display: flex; overflow-x: scroll; scroll-snap-type: x mandatory;
+        gap: 16px; padding: 16px 5% 20px; margin: 0 -5%;
+        scrollbar-width: none;
       }
+      .plans-grid::-webkit-scrollbar { display: none; }
       .plan-card {
-        flex: 0 0 78%; min-width: 0;
+        flex: 0 0 78%; min-width: 0; scroll-snap-align: center;
         padding: 36px 22px 24px;
       }
       .plan-card.featured { transform: none; }
@@ -1053,7 +1051,6 @@
       <h2 class="section-title reveal reveal-delay-1">Escolha o plano ideal para você</h2>
       <p class="section-sub reveal reveal-delay-2" style="margin: 0 auto;">Todos os planos incluem versão mobile, botão WhatsApp e configuração de domínio.</p>
     </div>
-    <div class="plans-carousel-outer">
     <div class="plans-grid" id="plans-grid">
 
       <div class="plan-card reveal reveal-delay-1">
@@ -1126,7 +1123,6 @@
       </div>
 
     </div>
-    </div><!-- /plans-carousel-outer -->
     <!-- Carousel dots (mobile only) -->
     <div class="plans-dots" id="plans-dots">
       <button class="plans-dot active" data-index="0"></button>
@@ -1405,94 +1401,59 @@
     });
   });
 
-  // Plans carousel — transform-based, direction-aware
+  // Plans carousel — native scroll + direction-aware touch
   (function() {
     const grid = document.getElementById('plans-grid');
     const dots = document.querySelectorAll('.plans-dot');
     if (!grid) return;
 
     const cards = Array.from(grid.querySelectorAll('.plan-card'));
-    let currentIdx = 0;
-    let offsetX = 0;        // current translateX applied
-    let startX = 0, startY = 0, startOffset = 0;
-    let dir = null;         // 'h' | 'v' | null
-    let animating = false;
+    let startX = 0, startY = 0, dir = null;
 
-    function cardStep() {
-      // card width + gap (16px)
-      return cards[0] ? cards[0].offsetWidth + 16 : 0;
+    function activeIndex() {
+      const step = cards[0] ? cards[0].offsetWidth + 16 : 1;
+      return Math.round(grid.scrollLeft / step);
     }
 
-    function setTranslate(x, animate) {
-      grid.style.transition = animate ? 'transform .3s cubic-bezier(.25,.46,.45,.94)' : 'none';
-      grid.style.transform = `translateX(${x}px)`;
-      offsetX = x;
-    }
-
-    function goTo(idx) {
+    function scrollToIndex(idx) {
       idx = Math.max(0, Math.min(idx, cards.length - 1));
-      currentIdx = idx;
-      setTranslate(-idx * cardStep(), true);
-      dots.forEach((d, i) => d.classList.toggle('active', i === idx));
+      const step = cards[0] ? cards[0].offsetWidth + 16 : 0;
+      grid.scrollTo({ left: idx * step, behavior: 'smooth' });
     }
 
-    dots.forEach(d => d.addEventListener('click', () => goTo(+d.dataset.index)));
+    // Dots click
+    dots.forEach(d => d.addEventListener('click', () => scrollToIndex(+d.dataset.index)));
 
-    // Only run touch logic on mobile
-    function isMobile() { return window.innerWidth <= 900; }
+    // Update dots on scroll
+    grid.addEventListener('scroll', () => {
+      const idx = activeIndex();
+      dots.forEach((d, i) => d.classList.toggle('active', i === idx));
+    }, { passive: true });
 
+    // Touch direction detection
     grid.addEventListener('touchstart', e => {
-      if (!isMobile()) return;
       startX = e.touches[0].clientX;
       startY = e.touches[0].clientY;
-      startOffset = offsetX;
       dir = null;
-      grid.style.transition = 'none';
+      grid.style.overflowX = 'scroll'; // ensure scrollable at start
     }, { passive: true });
 
     grid.addEventListener('touchmove', e => {
-      if (!isMobile()) return;
-      const dx = e.touches[0].clientX - startX;
-      const dy = e.touches[0].clientY - startY;
-
-      if (dir === null && (Math.abs(dx) > 8 || Math.abs(dy) > 8)) {
-        dir = Math.abs(dx) > Math.abs(dy) ? 'h' : 'v';
+      if (dir !== null) return;
+      const dx = Math.abs(e.touches[0].clientX - startX);
+      const dy = Math.abs(e.touches[0].clientY - startY);
+      if (dx < 8 && dy < 8) return; // wait for clear intent
+      dir = dx > dy ? 'h' : 'v';
+      if (dir === 'v') {
+        // Lock horizontal scroll → browser delivers vertical scroll to page
+        grid.style.overflowX = 'hidden';
       }
-
-      if (dir === 'h') {
-        e.preventDefault();
-        // rubber-band at edges
-        let next = startOffset + dx;
-        const min = -(cards.length - 1) * cardStep();
-        if (next > 0) next = next * 0.3;
-        if (next < min) next = min + (next - min) * 0.3;
-        grid.style.transform = `translateX(${next}px)`;
-      }
-      // dir === 'v': nothing → page scrolls normally
-    }, { passive: false });
-
-    grid.addEventListener('touchend', e => {
-      if (!isMobile() || dir !== 'h') { dir = null; return; }
-      const dx = e.changedTouches[0].clientX - startX;
-      const threshold = cardStep() * 0.22;
-      let idx = currentIdx;
-      if (dx < -threshold) idx++;
-      else if (dx > threshold) idx--;
-      dir = null;
-      goTo(idx);
     }, { passive: true });
 
-    // Reset transform on resize to desktop
-    window.addEventListener('resize', () => {
-      if (!isMobile()) {
-        grid.style.transform = '';
-        grid.style.transition = '';
-        offsetX = 0;
-        currentIdx = 0;
-      } else {
-        goTo(currentIdx);
-      }
-    });
+    grid.addEventListener('touchend', () => {
+      grid.style.overflowX = ''; // restore CSS value
+      dir = null;
+    }, { passive: true });
   })();
 </script>
 </body>
