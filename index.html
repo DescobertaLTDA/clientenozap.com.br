@@ -108,13 +108,29 @@
     .stat-divider { width: 1px; background: rgba(255,255,255,.2); height: 40px; align-self: center; }
 
     /* Hero visual */
-    .hero-visual { display: flex; justify-content: center; align-items: center; position: relative; height: 560px; }
+    .hero-visual { display: flex; justify-content: center; align-items: center; position: relative; height: 580px; }
+
+    /* Purple glow behind phone */
+    .hero-visual::before {
+      content: '';
+      position: absolute;
+      width: 320px; height: 320px;
+      background: radial-gradient(ellipse, rgba(139,92,246,.45) 0%, transparent 70%);
+      border-radius: 50%;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 1;
+      pointer-events: none;
+    }
 
     /* Phone image */
     .hero-phone {
-      width: 300px;
+      width: 290px;
       position: relative; z-index: 2;
-      filter: drop-shadow(0 32px 48px rgba(0,0,0,.55)) drop-shadow(0 8px 20px rgba(0,0,0,.4));
+      filter:
+        drop-shadow(0 40px 60px rgba(0,0,0,.6))
+        drop-shadow(0 0 40px rgba(108,43,217,.5))
+        drop-shadow(0 8px 16px rgba(0,0,0,.4));
       animation: float-phone 5s ease-in-out infinite;
     }
     .hero-phone img { width: 100%; height: auto; display: block; }
