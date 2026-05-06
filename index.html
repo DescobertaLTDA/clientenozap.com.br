@@ -137,13 +137,13 @@
     /* Side phones */
     .phone-left {
       width: 210px; height: 428px; z-index: 3;
-      transform: rotate(-16deg) translateX(-170px) translateY(-40px) scale(.8);
-      transform-origin: bottom center; opacity: .72;
+      transform: rotate(-14deg) translateX(-110px) translateY(-20px) scale(.82);
+      transform-origin: bottom center; opacity: .82;
     }
     .phone-right {
       width: 210px; height: 428px; z-index: 3;
-      transform: rotate(16deg) translateX(170px) translateY(-40px) scale(.8);
-      transform-origin: bottom center; opacity: .72;
+      transform: rotate(14deg) translateX(110px) translateY(-20px) scale(.82);
+      transform-origin: bottom center; opacity: .82;
     }
 
     /* ── PHONE SHELL ── */
@@ -201,7 +201,7 @@
     /* Status bar */
     .phone-status {
       background: #075E54;
-      padding: 14px 20px 0;
+      padding: 28px 14px 6px;
       display: flex; align-items: center; justify-content: space-between;
       flex-shrink: 0; position: relative; z-index: 5;
     }
@@ -210,26 +210,33 @@
     .phone-icons svg { width: 11px; height: 11px; color: #fff; }
     /* Dynamic island */
     .phone-island {
-      position: absolute; top: 10px; left: 50%; transform: translateX(-50%);
-      width: 76px; height: 20px; background: #080810;
+      position: absolute; top: 8px; left: 50%; transform: translateX(-50%);
+      width: 72px; height: 22px; background: #000;
       border-radius: 50px; z-index: 10;
     }
     /* WhatsApp header */
     .wpp-header {
       background: #075E54;
-      padding: 10px 12px 10px;
-      display: flex; align-items: center; gap: 9px;
+      padding: 8px 10px 8px;
+      display: flex; align-items: center; gap: 8px;
       flex-shrink: 0;
+      border-top: 1px solid rgba(255,255,255,.08);
     }
     .wpp-back { color: rgba(255,255,255,.8); display: flex; }
-    .wpp-back svg { width: 14px; height: 14px; }
-    .wpp-avatar { width: 32px; height: 32px; border-radius: 50%; background: linear-gradient(135deg,#6C2BD9,#8B5CF6); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-    .wpp-avatar svg { width: 16px; height: 16px; color: #fff; }
-    .wpp-info { flex: 1; }
-    .wpp-name { font-size: .65rem; font-weight: 700; color: #fff; line-height: 1.2; }
-    .wpp-online { font-size: .5rem; color: rgba(255,255,255,.7); }
-    .wpp-actions { display: flex; gap: 12px; }
-    .wpp-actions svg { width: 15px; height: 15px; color: rgba(255,255,255,.85); }
+    .wpp-back svg { width: 13px; height: 13px; }
+    .wpp-avatar {
+      width: 30px; height: 30px; border-radius: 50%;
+      background: linear-gradient(135deg,#6C2BD9,#8B5CF6);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+      font-size: .52rem; font-weight: 700; color: #fff; letter-spacing: .3px;
+    }
+    .wpp-avatar svg { width: 15px; height: 15px; color: #fff; }
+    .wpp-info { flex: 1; min-width: 0; }
+    .wpp-name { font-size: .6rem; font-weight: 700; color: #fff; line-height: 1.3; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .wpp-online { font-size: .46rem; color: rgba(255,255,255,.7); }
+    .wpp-actions { display: flex; gap: 10px; flex-shrink: 0; }
+    .wpp-actions svg { width: 14px; height: 14px; color: rgba(255,255,255,.85); }
 
     /* Chat area */
     .wpp-chat {
