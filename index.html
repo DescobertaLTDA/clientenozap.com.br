@@ -661,20 +661,22 @@
       .portfolio-grid { grid-template-columns: repeat(2, 1fr); }
 
       /* Plans — carousel */
-      .plans-grid {
-        display: flex; overflow-x: auto; scroll-snap-type: x mandatory;
-        gap: 16px; padding: 16px 5% 16px; margin: 0 -5%;
-        scrollbar-width: none;
-        touch-action: pan-x pinch-zoom;
+      .plans-carousel-outer {
+        overflow: hidden; margin: 0 -5%; padding: 0;
       }
-      .plans-grid::-webkit-scrollbar { display: none; }
-      .plans-grid .plan-card { touch-action: pan-x pinch-zoom; }
+      .plans-grid {
+        display: flex; overflow-x: hidden;
+        gap: 16px; padding: 16px 5% 20px; margin: 0;
+        scrollbar-width: none; will-change: transform;
+      }
       .plan-card {
-        flex: 0 0 82%; scroll-snap-align: center;
-        min-width: 0;
+        flex: 0 0 78%; min-width: 0;
+        padding: 36px 22px 24px;
       }
       .plan-card.featured { transform: none; }
-      .plan-card.featured:hover { transform: translateY(-4px); }
+      .plan-card.featured:hover { transform: none; }
+      .plan-price { font-size: 2rem; }
+      .plan-features li { font-size: .8rem; }
       .plans-dots { display: flex; }
 
       /* Testimonials */
@@ -1051,7 +1053,8 @@
       <h2 class="section-title reveal reveal-delay-1">Escolha o plano ideal para você</h2>
       <p class="section-sub reveal reveal-delay-2" style="margin: 0 auto;">Todos os planos incluem versão mobile, botão WhatsApp e configuração de domínio.</p>
     </div>
-    <div class="plans-grid">
+    <div class="plans-carousel-outer">
+    <div class="plans-grid" id="plans-grid">
 
       <div class="plan-card reveal reveal-delay-1">
         <div class="plan-name">Básico</div>
@@ -1123,6 +1126,7 @@
       </div>
 
     </div>
+    </div><!-- /plans-carousel-outer -->
     <!-- Carousel dots (mobile only) -->
     <div class="plans-dots" id="plans-dots">
       <button class="plans-dot active" data-index="0"></button>
@@ -1401,75 +1405,95 @@
     });
   });
 
-  // Plans carousel — touch handling + dots
-  const plansGrid = document.querySelector('.plans-grid');
-  const plansDots = document.querySelectorAll('.plans-dot');
+  // Plans carousel — transform-based, direction-aware
+  (function() {
+    const grid = document.getElementById('plans-grid');
+    const dots = document.querySelectorAll('.plans-dot');
+    if (!grid) return;
 
-  if (plansGrid) {
-    const plansCards = plansGrid.querySelectorAll('.plan-card');
-    let touchStartX = 0, touchStartY = 0, touchStartScroll = 0;
-    let dragDirection = null; // 'h' | 'v' | null
+    const cards = Array.from(grid.querySelectorAll('.plan-card'));
+    let currentIdx = 0;
+    let offsetX = 0;        // current translateX applied
+    let startX = 0, startY = 0, startOffset = 0;
+    let dir = null;         // 'h' | 'v' | null
+    let animating = false;
 
-    function getCardWidth() {
-      return plansCards[0] ? plansCards[0].offsetWidth + 16 : 0;
+    function cardStep() {
+      // card width + gap (16px)
+      return cards[0] ? cards[0].offsetWidth + 16 : 0;
     }
 
-    function snapToIndex(idx) {
-      idx = Math.max(0, Math.min(idx, plansCards.length - 1));
-      plansGrid.scrollTo({ left: idx * getCardWidth(), behavior: 'smooth' });
-      plansDots.forEach((d, i) => d.classList.toggle('active', i === idx));
+    function setTranslate(x, animate) {
+      grid.style.transition = animate ? 'transform .3s cubic-bezier(.25,.46,.45,.94)' : 'none';
+      grid.style.transform = `translateX(${x}px)`;
+      offsetX = x;
     }
 
-    function currentIndex() {
-      return Math.round(plansGrid.scrollLeft / getCardWidth());
+    function goTo(idx) {
+      idx = Math.max(0, Math.min(idx, cards.length - 1));
+      currentIdx = idx;
+      setTranslate(-idx * cardStep(), true);
+      dots.forEach((d, i) => d.classList.toggle('active', i === idx));
     }
 
-    plansGrid.addEventListener('touchstart', e => {
-      touchStartX = e.touches[0].clientX;
-      touchStartY = e.touches[0].clientY;
-      touchStartScroll = plansGrid.scrollLeft;
-      dragDirection = null;
-      plansGrid.style.scrollSnapType = 'none'; // disable snap during drag
+    dots.forEach(d => d.addEventListener('click', () => goTo(+d.dataset.index)));
+
+    // Only run touch logic on mobile
+    function isMobile() { return window.innerWidth <= 900; }
+
+    grid.addEventListener('touchstart', e => {
+      if (!isMobile()) return;
+      startX = e.touches[0].clientX;
+      startY = e.touches[0].clientY;
+      startOffset = offsetX;
+      dir = null;
+      grid.style.transition = 'none';
     }, { passive: true });
 
-    plansGrid.addEventListener('touchmove', e => {
-      const dx = e.touches[0].clientX - touchStartX;
-      const dy = e.touches[0].clientY - touchStartY;
+    grid.addEventListener('touchmove', e => {
+      if (!isMobile()) return;
+      const dx = e.touches[0].clientX - startX;
+      const dy = e.touches[0].clientY - startY;
 
-      if (dragDirection === null && (Math.abs(dx) > 6 || Math.abs(dy) > 6)) {
-        dragDirection = Math.abs(dx) >= Math.abs(dy) ? 'h' : 'v';
+      if (dir === null && (Math.abs(dx) > 8 || Math.abs(dy) > 8)) {
+        dir = Math.abs(dx) > Math.abs(dy) ? 'h' : 'v';
       }
 
-      if (dragDirection === 'h') {
-        e.preventDefault(); // only block page scroll when dragging horizontally
-        plansGrid.scrollLeft = touchStartScroll - dx;
+      if (dir === 'h') {
+        e.preventDefault();
+        // rubber-band at edges
+        let next = startOffset + dx;
+        const min = -(cards.length - 1) * cardStep();
+        if (next > 0) next = next * 0.3;
+        if (next < min) next = min + (next - min) * 0.3;
+        grid.style.transform = `translateX(${next}px)`;
       }
-      // dragDirection === 'v': do nothing → page scrolls naturally
+      // dir === 'v': nothing → page scrolls normally
     }, { passive: false });
 
-    plansGrid.addEventListener('touchend', () => {
-      plansGrid.style.scrollSnapType = ''; // restore CSS snap
-      if (dragDirection === 'h') {
-        const dx = plansGrid.scrollLeft - touchStartScroll;
-        const threshold = getCardWidth() * 0.25;
-        let idx = currentIndex();
-        if (dx > threshold) idx = Math.min(idx + 1, plansCards.length - 1);
-        else if (dx < -threshold) idx = Math.max(idx - 1, 0);
-        snapToIndex(idx);
+    grid.addEventListener('touchend', e => {
+      if (!isMobile() || dir !== 'h') { dir = null; return; }
+      const dx = e.changedTouches[0].clientX - startX;
+      const threshold = cardStep() * 0.22;
+      let idx = currentIdx;
+      if (dx < -threshold) idx++;
+      else if (dx > threshold) idx--;
+      dir = null;
+      goTo(idx);
+    }, { passive: true });
+
+    // Reset transform on resize to desktop
+    window.addEventListener('resize', () => {
+      if (!isMobile()) {
+        grid.style.transform = '';
+        grid.style.transition = '';
+        offsetX = 0;
+        currentIdx = 0;
+      } else {
+        goTo(currentIdx);
       }
-      dragDirection = null;
-    }, { passive: true });
-
-    // Update dots on native scroll (mouse/keyboard)
-    plansGrid.addEventListener('scroll', () => {
-      plansDots.forEach((d, i) => d.classList.toggle('active', i === currentIndex()));
-    }, { passive: true });
-
-    // Dot click navigation
-    plansDots.forEach(dot => {
-      dot.addEventListener('click', () => snapToIndex(+dot.dataset.index));
     });
-  }
+  })();
 </script>
 </body>
 </html>
