@@ -107,62 +107,66 @@
     .stat-label { font-size: .78rem; color: rgba(255,255,255,.5); font-weight: 500; margin-top: 4px; }
     .stat-divider { width: 1px; background: rgba(255,255,255,.2); height: 40px; align-self: center; }
 
-    /* Hero visual */
-    .hero-visual { display: flex; justify-content: center; align-items: center; position: relative; height: 580px; }
-
-    /* Purple glow behind phone */
+    /* ── HERO VISUAL ── */
+    .hero-visual {
+      display: flex; justify-content: center; align-items: center;
+      position: relative; height: 580px;
+    }
+    /* Glow behind phone */
     .hero-visual::before {
       content: '';
-      position: absolute;
-      width: 320px; height: 320px;
-      background: radial-gradient(ellipse, rgba(139,92,246,.45) 0%, transparent 70%);
-      border-radius: 50%;
-      top: 50%; left: 50%;
-      transform: translate(-50%, -50%);
-      z-index: 1;
-      pointer-events: none;
+      position: absolute; inset: 0; z-index: 0; pointer-events: none;
+      background:
+        radial-gradient(ellipse 60% 70% at 60% 50%, rgba(139,92,246,.35) 0%, transparent 65%),
+        radial-gradient(ellipse 30% 40% at 65% 70%, rgba(37,211,102,.12) 0%, transparent 60%);
     }
 
-    /* Phone image */
+    /* ── PHONE SHELL ── */
     .hero-phone {
-      width: 290px;
-      position: relative; z-index: 2;
-      filter:
-        drop-shadow(0 40px 60px rgba(0,0,0,.6))
-        drop-shadow(0 0 40px rgba(108,43,217,.5))
-        drop-shadow(0 8px 16px rgba(0,0,0,.4));
+      width: 248px; height: 504px;
+      position: relative; z-index: 2; flex-shrink: 0;
       animation: float-phone 5s ease-in-out infinite;
     }
-    .hero-phone img { width: 100%; height: auto; display: block; }
-    @keyframes float-phone { 0%,100%{ transform: translateY(0); } 50%{ transform: translateY(-12px); } }
-
-    /* Outer frame */
-    .phone-frame {
-      width: 100%; height: 100%;
-      background: linear-gradient(160deg, #2a2a3e 0%, #111120 60%, #1e1e30 100%);
-      border-radius: 44px;
-      padding: 3px;
-      position: relative;
+    @keyframes float-phone {
+      0%,100%{ transform: translateY(0) rotate(1deg); }
+      50%{ transform: translateY(-14px) rotate(1deg); }
     }
-    /* Side buttons */
+
+    /* Outer titanium frame */
+    .phone-frame {
+      width: 100%; height: 100%; position: relative;
+      background: linear-gradient(145deg, #4a4a5a 0%, #1c1c28 40%, #2a2a38 70%, #3a3a4a 100%);
+      border-radius: 46px;
+      box-shadow:
+        0 0 0 1px rgba(255,255,255,.12) inset,
+        0 0 0 1px rgba(0,0,0,.8),
+        0 40px 80px rgba(0,0,0,.7),
+        0 0 60px rgba(108,43,217,.4),
+        0 10px 30px rgba(0,0,0,.5);
+      padding: 4px;
+    }
+    /* Volume buttons left */
     .phone-frame::before {
       content: '';
-      position: absolute; left: -3px; top: 110px;
-      width: 3px; height: 36px;
-      background: #2a2a3e; border-radius: 3px 0 0 3px;
-      box-shadow: 0 46px 0 #2a2a3e;
+      position: absolute; left: -4px; top: 108px;
+      width: 4px; height: 32px;
+      background: linear-gradient(180deg, #3a3a4a, #2a2a38);
+      border-radius: 4px 0 0 4px;
+      box-shadow: 0 44px 0 #2a2a38, 0 86px 0 #2a2a38;
     }
+    /* Power button right */
     .phone-frame::after {
       content: '';
-      position: absolute; right: -3px; top: 140px;
-      width: 3px; height: 60px;
-      background: #2a2a3e; border-radius: 0 3px 3px 0;
+      position: absolute; right: -4px; top: 140px;
+      width: 4px; height: 56px;
+      background: linear-gradient(180deg, #3a3a4a, #2a2a38);
+      border-radius: 0 4px 4px 0;
     }
-    /* Inner bezel */
+    /* Inner black bezel */
     .phone-bezel {
       width: 100%; height: 100%;
-      background: #0f0f1a;
-      border-radius: 42px;
+      background: #080810;
+      border-radius: 43px;
       padding: 2px;
       overflow: hidden;
     }
@@ -170,25 +174,25 @@
     .phone-screen {
       width: 100%; height: 100%;
       background: #fff;
-      border-radius: 40px;
+      border-radius: 41px;
       overflow: hidden;
       display: flex; flex-direction: column;
       position: relative;
     }
     /* Status bar */
     .phone-status {
-      background: var(--purple-dark);
-      padding: 12px 20px 6px;
+      background: #075E54;
+      padding: 14px 20px 0;
       display: flex; align-items: center; justify-content: space-between;
-      flex-shrink: 0;
+      flex-shrink: 0; position: relative; z-index: 5;
     }
-    .phone-time { font-size: .6rem; font-weight: 700; color: #fff; letter-spacing: .5px; }
-    .phone-icons { display: flex; align-items: center; gap: 4px; }
-    .phone-icons svg { width: 10px; height: 10px; color: #fff; }
+    .phone-time { font-size: .58rem; font-weight: 800; color: #fff; letter-spacing: .3px; }
+    .phone-icons { display: flex; align-items: center; gap: 5px; }
+    .phone-icons svg { width: 11px; height: 11px; color: #fff; }
     /* Dynamic island */
     .phone-island {
-      position: absolute; top: 8px; left: 50%; transform: translateX(-50%);
-      width: 80px; height: 22px; background: #0f0f1a;
+      position: absolute; top: 10px; left: 50%; transform: translateX(-50%);
+      width: 76px; height: 20px; background: #080810;
       border-radius: 50px; z-index: 10;
     }
     /* WhatsApp header */
@@ -643,9 +647,97 @@
       </div>
     </div>
     <div class="hero-visual">
-      <!-- Phone image -->
+      <!-- Phone mockup -->
       <div class="hero-phone">
-        <img src="assets/iPhone_15_Pro_WhatsApp_conversation_202605052300-removebg-preview.png" alt="Conversa no WhatsApp mostrando cliente recebendo orçamento de landing page" />
+        <div class="phone-frame">
+          <div class="phone-bezel">
+            <div class="phone-screen">
+              <div class="phone-island"></div>
+
+              <!-- Status bar -->
+              <div class="phone-status">
+                <span class="phone-time">9:41</span>
+                <div class="phone-icons">
+                  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M1.51 8.27C5.14 4.65 10.06 2.5 15.5 2.5S25.86 4.65 29.49 8.27" opacity=".3"/><path d="M5.5 12.27C8.07 9.71 11.61 8.1 15.5 8.1s7.43 1.61 10 4.17" opacity=".6"/><path d="M9.5 16.27c1.52-1.52 3.62-2.46 5.93-2.46 2.32 0 4.41.94 5.93 2.46"/><circle cx="15.5" cy="20.27" r="1.5"/></svg>
+                  <svg viewBox="0 0 24 24" fill="currentColor"><rect x="2" y="7" width="18" height="11" rx="2"/><path d="M22 11v3a1 1 0 0 0 0-3z"/></svg>
+                </div>
+              </div>
+
+              <!-- WhatsApp header -->
+              <div class="wpp-header">
+                <div class="wpp-back">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+                </div>
+                <div class="wpp-avatar">LG</div>
+                <div class="wpp-info">
+                  <div class="wpp-name">Lucas — ClienteNoZap</div>
+                  <div class="wpp-online">● online agora</div>
+                </div>
+                <div class="wpp-actions">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.39 2 2 0 0 1 3.6 1.21h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.91 8.82a16 16 0 0 0 6.29 6.29l.98-.98a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="5" r="1" fill="currentColor"/><circle cx="12" cy="12" r="1" fill="currentColor"/><circle cx="12" cy="19" r="1" fill="currentColor"/></svg>
+                </div>
+              </div>
+
+              <!-- Chat -->
+              <div class="wpp-chat">
+                <div class="wpp-date"><span>Hoje</span></div>
+
+                <div class="wpp-bubble-r">
+                  <div class="wpp-msg">Olá! Qual o valor para criar uma landing page? 🤔</div>
+                  <div class="wpp-time">10:30</div>
+                </div>
+
+                <div class="wpp-bubble-s">
+                  <div class="wpp-msg">Oi! Tudo bem? 😄 Temos planos a partir de <strong>R$297</strong>, entregues em até <strong>48h!</strong></div>
+                  <div class="wpp-time">10:31 <svg viewBox="0 0 16 15" fill="currentColor"><path d="M15.01 3.316l-.478-.372a.365.365 0 0 0-.51.063L8.666 9.88a.32.32 0 0 1-.484.033l-.358-.325a.32.32 0 0 0-.484.032l-.378.48a.418.418 0 0 0 .036.54l1.32 1.267a.32.32 0 0 0 .484-.034l6.272-8.048a.366.366 0 0 0-.064-.512zm-4.1 0l-.478-.372a.365.365 0 0 0-.51.063L4.566 9.879a.32.32 0 0 1-.484.033L2.891 8.712a.366.366 0 0 0-.515.006l-.423.433a.364.364 0 0 0 .006.514l1.353 1.303a.32.32 0 0 0 .484-.034l6.272-8.048a.365.365 0 0 0-.063-.51z"/></svg></div>
+                </div>
+
+                <div class="wpp-bubble-s">
+                  <div class="wpp-card-preview">
+                    <div class="wpp-card-img">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.7)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+                    </div>
+                    <div class="wpp-card-body">
+                      <div class="wpp-card-domain">clientenozap.com.br</div>
+                      <div class="wpp-card-title">Portfólio & Planos — Landing Pages</div>
+                      <div class="wpp-card-sub">Veja exemplos e escolha seu plano ideal.</div>
+                    </div>
+                  </div>
+                  <div class="wpp-msg">Dá uma olhada no site! 👆</div>
+                  <div class="wpp-time">10:31 <svg viewBox="0 0 16 15" fill="currentColor"><path d="M15.01 3.316l-.478-.372a.365.365 0 0 0-.51.063L8.666 9.88a.32.32 0 0 1-.484.033l-.358-.325a.32.32 0 0 0-.484.032l-.378.48a.418.418 0 0 0 .036.54l1.32 1.267a.32.32 0 0 0 .484-.034l6.272-8.048a.366.366 0 0 0-.064-.512zm-4.1 0l-.478-.372a.365.365 0 0 0-.51.063L4.566 9.879a.32.32 0 0 1-.484.033L2.891 8.712a.366.366 0 0 0-.515.006l-.423.433a.364.364 0 0 0 .006.514l1.353 1.303a.32.32 0 0 0 .484-.034l6.272-8.048a.365.365 0 0 0-.063-.51z"/></svg></div>
+                </div>
+
+                <div class="wpp-bubble-r">
+                  <div class="wpp-msg">Vi seu portfólio, os designs são ótimos! 😍</div>
+                  <div class="wpp-time">10:33</div>
+                </div>
+
+                <div class="wpp-typing">
+                  <div class="wpp-dot"></div>
+                  <div class="wpp-dot"></div>
+                  <div class="wpp-dot"></div>
+                </div>
+              </div>
+
+              <!-- Input bar -->
+              <div class="wpp-input">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#8696a0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>
+                <div class="wpp-input-box">Digite uma mensagem</div>
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#8696a0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/></svg>
+                <div class="wpp-mic">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
+                </div>
+              </div>
+
+              <!-- Home bar -->
+              <div class="phone-bottom"><div class="phone-bottom-dot"></div></div>
+
+              <!-- Screen shine -->
+              <div class="phone-shine"></div>
+            </div>
+          </div>
+        </div>
       </div>
 
       <!-- Floating badge: delivered -->
