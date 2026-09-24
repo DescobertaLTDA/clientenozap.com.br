@@ -647,7 +647,8 @@
 
       /* Plans — carousel */
       .plans-grid {
-        display: flex; overflow-x: scroll; scroll-snap-type: x mandatory;
+        display: flex; overflow-x: auto; overflow-y: hidden; scroll-snap-type: x mandatory;
+        -webkit-overflow-scrolling: touch; overscroll-behavior-x: contain;
         gap: 16px; padding: 16px 5% 20px; margin: 0 -5%;
         scrollbar-width: none;
       }
@@ -1325,15 +1326,14 @@
     });
   });
 
-  // Plans carousel — native scroll + direction-aware touch
+  // Plans carousel — native scroll (a direção do gesto é resolvida pelo CSS)
   (function() {
     const grid = document.getElementById('plans-grid');
     const dots = document.querySelectorAll('.plans-dot');
     if (!grid) return;
 
     const cards = Array.from(grid.querySelectorAll('.plan-card'));
-    let startX = 0, startY = 0, dir = null;
-
+    
     function activeIndex() {
       const step = cards[0] ? cards[0].offsetWidth + 16 : 1;
       return Math.round(grid.scrollLeft / step);
@@ -1352,31 +1352,6 @@
     grid.addEventListener('scroll', () => {
       const idx = activeIndex();
       dots.forEach((d, i) => d.classList.toggle('active', i === idx));
-    }, { passive: true });
-
-    // Touch direction detection
-    grid.addEventListener('touchstart', e => {
-      startX = e.touches[0].clientX;
-      startY = e.touches[0].clientY;
-      dir = null;
-      grid.style.overflowX = 'scroll'; // ensure scrollable at start
-    }, { passive: true });
-
-    grid.addEventListener('touchmove', e => {
-      if (dir !== null) return;
-      const dx = Math.abs(e.touches[0].clientX - startX);
-      const dy = Math.abs(e.touches[0].clientY - startY);
-      if (dx < 8 && dy < 8) return; // wait for clear intent
-      dir = dx > dy ? 'h' : 'v';
-      if (dir === 'v') {
-        // Lock horizontal scroll → browser delivers vertical scroll to page
-        grid.style.overflowX = 'hidden';
-      }
-    }, { passive: true });
-
-    grid.addEventListener('touchend', () => {
-      grid.style.overflowX = ''; // restore CSS value
-      dir = null;
     }, { passive: true });
   })();
 </script>
